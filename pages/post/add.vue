@@ -27,12 +27,10 @@ export default {
     methods: {
         // 草稿箱传过来的方法
         addDraftToForm(data){
-            // console.log(data)
             this.draftData = data
         },
         getLocalStorageDraft(draft){
-            console.log(draft, 111)
-            this.allDraftData = draft
+            this.allDraftData = {...draft}
         }
     },
 }

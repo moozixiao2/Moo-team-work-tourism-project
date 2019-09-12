@@ -1,9 +1,14 @@
 <template>
     <div class="addFormDraft">
-        <h4>草稿箱（{{draftData.length || 0}}）</h4>
-        <div class="add-form-draft-item" v-for="(item,index) in draftData" :key="index">
-            <div @click="addInfoToForm(index)" :title="item.title">{{item.title}} <i class="el-icon-edit"></i></div>
-            <p>{{item.create_time}}</p>
+        <div v-if="$store.state.user.userInfo.token">
+            <h4>草稿箱（{{total || 0}}）</h4>
+            <div class="add-form-draft-item" v-for="(item,index) in draftData" :key="index">
+                <div @click="addInfoToForm(item.id)" :title="item.title">{{item.title}} <i class="el-icon-edit"></i></div>
+                <p>{{item.create_time}}</p>
+            </div>
+        </div>
+        <div v-else>
+            <h4>草稿箱</h4>
         </div>
     </div>
 </template>
@@ -20,24 +25,32 @@ export default {
     data() {
         return {
             // 本地草稿数据
-            draftData: {}
+            draftData: {},
+            total: 0
         }
     },
     methods: {
-        // 点击 获得对应索引的数据 
-        addInfoToForm(index){
+        // 点击 获得对应索引的数据  也可以通过查找id来获得
+        addInfoToForm(id){
+            let index = 0
+            for(let i = 0; i < this.draftData.length; i++){
+                if(this.draftData[i].id == id){
+                    index = i
+                }
+            }
             this.$emit('addDraftToForm', this.draftData[index])
         }
     },
     watch: {
         'data' () {
             this.draftData = this.data
+            this.total = Object.keys(this.data).length
         }
     },
     mounted () {
         // 获得本地 数据
         this.draftData = JSON.parse(localStorage.getItem('draft box')) || []
-        // console.log(this.draftData) 
+        this.total = this.draftData.length
     }
 }
 </script>
@@ -46,7 +59,7 @@ export default {
 .addFormDraft{
     padding: 10px;
     border: solid 1px #ccc;
-    >h4{
+    h4{
         font-weight: 500;
         color: #666;
     }
