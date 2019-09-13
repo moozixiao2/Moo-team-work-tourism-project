@@ -5,9 +5,9 @@
             <!-- 图片长度大于2，对应布局的显示 -->
             <div class="recommed-item-1" v-if='data.images.length > 2'>
                 <!-- 标题 -->
-                <h3><nuxt-link  :to='"post/detail?id="+data.id' v-html='data.title'></nuxt-link></h3>
+                <h3><nuxt-link  :to='"post/detail?id="+data.id' :title="data.title">{{data.title}}</nuxt-link></h3>
                 <!-- 内容 -->
-                <p><nuxt-link :to='"post/detail?id="+data.id' v-html="data.summary"></nuxt-link></p>
+                <p><nuxt-link :to='"post/detail?id="+data.id'>{{data.summary}}</nuxt-link></p>
                 <!-- 图片 -->
                 <el-row class="item-img" type='flex' justify='space-between'>
                     <nuxt-link :to='"post/detail?id="+data.id' v-for="(img,index) in data.images" :key='index'>
@@ -36,8 +36,8 @@
                         </nuxt-link>
                     </el-col>
                     <el-col :span="16">
-                        <h3><nuxt-link :to='"post/detail?id="+data.id' v-html='data.title'></nuxt-link></h3> 
-                        <p><nuxt-link :to='"post/detail?id="+data.id' v-html="data.summary"></nuxt-link></p>
+                        <h3><nuxt-link :to='"post/detail?id="+data.id' :title="data.title">{{data.title}}</nuxt-link></h3> 
+                        <p><nuxt-link :to='"post/detail?id="+data.id'>{{data.summary}}</nuxt-link></p>
                         <el-row type='flex' align='middle' justify='space-between' class="other-info">
                             <el-row type="flex">
                                 <span><i class="el-icon-location-outline"></i>{{data.cityName}}</span>
