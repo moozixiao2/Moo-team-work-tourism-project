@@ -12,7 +12,7 @@
                         </span>
                          
                          </el-col>
-                         <nuxt-link to="#"><i class="el-icon-d-arrow-right" @click="isShowArea = !isShowArea" :class="{icon_hide:!isShowArea,icon_show:isShowArea}"></i>等{{strategy.length}}个区域</nuxt-link>
+                         <nuxt-link to="#"><i class="el-icon-d-arrow-right" :class="{icon_hide:!isShowArea,icon_show:isShowArea}" @click="isShowArea = !isShowArea"></i>等{{strategy.length}}个区域</nuxt-link>
                 </el-row>
             </el-col>
         </el-row>
@@ -94,7 +94,7 @@ export default {
             }).then(res=>{
                 this.strategy = res.data.data[0].scenics
             })
-           },2000)
+           },1000)
         }
     }
 }
