@@ -12,6 +12,8 @@
         <HotelMap />
       </el-col>
     </el-row>
+    <!-- 酒店列表 -->
+    <HotelList />
   </div>
 </template>
 
@@ -19,12 +21,14 @@
 import HotelForm from "@/components/hotel/hotelForm.vue";
 import HotelRegion from "@/components/hotel/hotelRegion.vue";
 import HotelMap from "@/components/hotel/hotelMap.vue";
+import HotelList from "@/components/hotel/HotelList.vue";
 export default {
   components: {
     // 注册组件
     HotelForm,
     HotelRegion,
-    HotelMap
+    HotelMap,
+    HotelList
   },
   data() {
     return {
