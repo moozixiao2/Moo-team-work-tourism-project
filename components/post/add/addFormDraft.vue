@@ -3,7 +3,7 @@
         <div v-if="$store.state.user.userInfo.token">
             <h4>草稿箱（{{total || 0}}）</h4>
             <div class="add-form-draft-item" v-for="(item,index) in draftData" :key="index">
-                <div @click="addInfoToForm(item.id)" :title="item.title">{{item.title}} <i class="el-icon-edit"></i></div>
+                <div @click="addInfoToForm(index)" :title="item.title">{{item.title}} <i class="el-icon-edit"></i></div>
                 <p>{{item.create_time}}</p>
             </div>
         </div>
@@ -26,18 +26,13 @@ export default {
         return {
             // 本地草稿数据
             draftData: {},
+            // 草稿数量 
             total: 0
         }
     },
     methods: {
         // 点击 获得对应索引的数据  也可以通过查找id来获得
-        addInfoToForm(id){
-            let index = 0
-            for(let i = 0; i < this.draftData.length; i++){
-                if(this.draftData[i].id == id){
-                    index = i
-                }
-            }
+        addInfoToForm(index){
             this.$emit('addDraftToForm', this.draftData[index])
         }
     },
@@ -51,6 +46,7 @@ export default {
         // 获得本地 数据
         this.draftData = JSON.parse(localStorage.getItem('draft box')) || []
         this.total = this.draftData.length
+        // console.log(this.draftData) 
     }
 }
 </script>

@@ -23,7 +23,7 @@
             <!-- 推荐攻略头部 -->
             <el-row type="flex" justify="space-between" align='middle' class="post-title">
                 <h3>推荐攻略</h3>
-                <el-button type="primary" icon="el-icon-edit" @click="$router.replace('/post/add')">写游记</el-button>
+                <el-button type="primary" icon="el-icon-edit" @click="$router.push('/post/add')">写游记</el-button>
             </el-row>
             <!-- 推荐攻略对应项 -->
             <PostShow v-for="(item, index) in postData" :key='index' :data='item'/>

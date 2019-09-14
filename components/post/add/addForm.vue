@@ -214,25 +214,37 @@ export default {
                 return
             }
 
-            // 添加 id
-            let id = Math.floor(Math.random() * 99999) + '' + Date.now();
-            // 添加当前时间
-            let data = {
-                ...this.form,
-                create_time: moment(new Date()).format('YYYY-MM-DD'),
-                id: id
-            }
-            // console.log(data)
-            // 将 data 数据 存储到 本地
-            // 判断本地是否有数据 
-            let draftArr = JSON.parse(localStorage.getItem('draft box')) || []
-            // 追加 数据
-            draftArr.unshift(data)
-            // 设置本地存储
-            localStorage.setItem('draft box', JSON.stringify(draftArr))
+            // 判断 是否存在 id
+            console.log(this.data)
+            if(this.data.id){
+                // 是否是草稿数据
+                if(this.form.title !== this.data.title && this.form.content !== this.data.content &&this.$refs.vueEditor.editor.root.innerHTML !== this.data.content && this.form.city !== this.data.city){
+                    return
+                }
+                
+                // 调用 替换本地的数据
+                this.replaceStore()
+            }else{
+                // 添加 id
+                let id = Math.floor(Math.random() * 99999) + '' + Date.now();
+                // 添加当前时间
+                let data = {
+                    ...this.form,
+                    create_time: moment(new Date()).format('YYYY-MM-DD'),
+                    id: id
+                }
+                // console.log(data)
+                // 将 data 数据 存储到 本地
+                // 判断本地是否有数据 
+                let draftArr = JSON.parse(localStorage.getItem('draft box')) || []
+                // 追加 数据
+                draftArr.unshift(data)
+                // 设置本地存储
+                localStorage.setItem('draft box', JSON.stringify(draftArr))
 
-            // 发射本地存储的数据到草稿
-            this.$emit('getLocalStorageDraft', JSON.parse(localStorage.getItem('draft box')) || [])
+                // 发射本地存储的数据到草稿
+                this.$emit('getLocalStorageDraft', JSON.parse(localStorage.getItem('draft box')) || [])
+            }
 
             // 清空表单
             this.form.title = ''
@@ -277,40 +289,14 @@ export default {
         // 自动保存
         autoSaveDraft(){
             // 判断是否将点击了对应的草稿箱数据
-            if(this.form.title !== this.data.id && this.form.content !== this.data.content &&this.$refs.vueEditor.editor.root.innerHTML !== this.data.content && this.form.city !== this.data.city){
-                return
-            }
-            if(!this.form.title || !this.form.city || !this.$refs.vueEditor.editor.root.innerHTML || !this.form.content){
-                this.$message.warning('请输入标题或内容或城市')
-                return
-            }
-            if(this.data.id){
+            if(this.form.title !== this.data.title && this.form.content !== this.data.content &&this.$refs.vueEditor.editor.root.innerHTML !== this.data.content && this.form.city !== this.data.city){
                 return
             }
             // this.isBlur = true
             if(this.isBlur){
                 this.timer = setInterval(() => {
-                    let arr = JSON.parse(localStorage.getItem('draft box')) || []
-                    // 遍历找出对应 index
-                    let index = arr.findIndex(v => {
-                        return v.id === this.data.id
-                    })
-
-                    // 更改的数据
-                    this.form.content = this.$refs.vueEditor.editor.root.innerHTML
-                    let obj = {
-                        ...this.form,
-                        create_time: moment(new Date()).format('YYYY-MM-DD'),
-                        id: this.data.id
-                    }
-                    // console.log(obj)
-                    // 替换
-                    arr.splice(index,1,obj)
-
-                    //保存数据到本地(更新)
-                    localStorage.setItem('draft box', JSON.stringify(arr))
-                    // 发射本地存储的数据到草稿
-                    this.$emit('getLocalStorageDraft', JSON.parse(localStorage.getItem('draft box')) || [])
+                    // 调用 替换本地的数据
+                    this.replaceStore()
 
                     this.isBlur = false
                     clearInterval(this.timer)
@@ -318,10 +304,34 @@ export default {
                 }, 5000);
             }
         },
-        destroyed () {
-            clearInterval(this.timer)
-            this.timer = null
+        // 替换本地的数据 （更新）
+        replaceStore(){
+            let arr = JSON.parse(localStorage.getItem('draft box')) || []
+            // 遍历找出对应 index
+            let index = arr.findIndex(v => {
+                return v.id === this.data.id
+            })
+
+            // 更改的数据
+            this.form.content = this.$refs.vueEditor.editor.root.innerHTML
+            let obj = {
+                ...this.form,
+                create_time: moment(new Date()).format('YYYY-MM-DD'),
+                id: this.data.id
+            }
+            // console.log(obj)
+            // 替换
+            arr.splice(index,1,obj)
+
+            //保存数据到本地(更新)
+            localStorage.setItem('draft box', JSON.stringify(arr))
+            // 发射本地存储的数据到草稿
+            this.$emit('getLocalStorageDraft', JSON.parse(localStorage.getItem('draft box')) || [])
         }
+    },
+    destroyed () {
+        clearInterval(this.timer)
+        this.timer = null
     },
     watch: {
         // 侦听 传过来的 data
