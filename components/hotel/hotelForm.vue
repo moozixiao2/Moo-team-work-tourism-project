@@ -14,7 +14,7 @@
         <el-form-item class="hotel-autocomplete">
           <el-autocomplete
             v-model="form.hotelCity"
-            placeholder="请输入内容"
+            placeholder="目标城市"
             :fetch-suggestions="querySearchCity"
             @select="handleSelectCity"
           ></el-autocomplete>
@@ -151,6 +151,10 @@ export default {
       this.form.id = item.id;
       //面包屑城市名缓存
       this.cityName = item.name;
+      // console.log(123)
+    const arr=item.id;
+      this.$emit('cityHotelList',arr)
+
     },
     chooseHousing() {
       // 判断人数
@@ -171,7 +175,6 @@ export default {
 
 <style scoped lang="less">
 .breadcrumb {
-  // overflow:hidden;//溢出隐藏
   padding: 20px 0;
 }
 .hotel-form {

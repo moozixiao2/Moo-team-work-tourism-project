@@ -1,8 +1,8 @@
 <template>
   <div class="contianer">
     <!-- 城市酒店筛选 -->
-    <HotelForm />
-    <el-row >
+    <HotelForm @cityHotelList="cityHotelList" />
+    <el-row>
       <el-col :span="12">
         <!-- 城市区域信息 -->
         <HotelRegion :name="HotelRegion" />
@@ -13,7 +13,7 @@
       </el-col>
     </el-row>
     <!-- 酒店列表 -->
-    <HotelList />
+    <HotelList/>
   </div>
 </template>
 
@@ -45,8 +45,8 @@ export default {
         hoteltype: 1, //酒店类型
         hotelbrand: 1, //酒店品牌
         hotelasset: 1, //酒店设施
-        enterTime: "2019-7-29", //入店时间
-        leftTime: "2019-8-02",
+        enterTime: "", //入店时间
+        leftTime: "",
         person: 2, //人数
         limit: 10, //条数
         start: 1
@@ -55,25 +55,13 @@ export default {
   },
   mounted() {
     // 调用请求接口
-    this.getHotel();
+    this.getCityHotel();
   },
   methods: {
-    // 获取酒店详情数据
-    getHotel() {
-      const { city } = this.Hotels;
-      // const {id,city,scenic,hotellevel,enterTime,leftTime,limit,start}=this.Hotels;
+    getCityHotel() {
       this.$axios({
         url: "/hotels",
-        params: {
-          // id,
-          city
-          // scenic,
-          // hotellevel,
-          // enterTime,
-          // leftTime,
-          // limit,
-          // start
-        }
+        params: { city: this.$route.query.city }
       }).then(res => {
         console.log(res);
         // 区域详情
@@ -81,6 +69,20 @@ export default {
         // 获取城市数据
         this.HotelRegion = res.data.data[0].city.name;
       });
+    },
+    cityHotelList(arr) {
+      // // console.log(arr);
+      // this.$axios({
+      //   url: "/hotels",
+      //   params: { city: arr }
+      // }).then(res => {
+      //   this.cityHotel=res.data.data
+      //   console.log(this.cityHotel);
+        this.$router.push({
+          path:"/hotel",
+          query:{city:arr}
+        })
+      // });
     }
   }
 };
