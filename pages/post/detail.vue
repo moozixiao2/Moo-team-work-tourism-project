@@ -4,13 +4,13 @@
         <div>
             <DetailContent :data='detailData' />
             <PostComment />
-            <CommentItems :data='commentData'  v-if='total <= 0'/>
         </div>
         <!-- 右边相关攻略 -->
         <div class="about-post">
             <h3>相关攻略</h3>
             <AboutPost/>
         </div>
+        <div class="goToTop" @click="goToTop"><i class="iconfont icon-tubiao02"></i></div>
     </el-row>
 </template>
 
@@ -26,11 +26,7 @@ export default {
     data() {
         return {
             // 文章详情数据
-            detailData: {},
-            
-            // 评论
-            commentData: {},
-            total: 0
+            detailData: {}
         }
     },
     watch: {
@@ -38,8 +34,6 @@ export default {
         $route() {
             // 对应文章显示
             this.init()
-            // 对应评论显示
-            this.commentInit()
         }
     },
     methods: {
@@ -55,26 +49,19 @@ export default {
                 this.$store.commit('post/setStarPost',  {...data[0]}.likeIds)
             })
         },
-        commentInit(){
-            this.$axios({
-                url: '/posts/comments',
-                params: {
-                    post: this.$route.query.id,
-                    _limit: 2,
-                    _start: 1
+        // 回来顶部
+        goToTop(){
+            (function smoothscroll(){
+                var currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
+                if (currentScroll > 0) {
+                    window.requestAnimationFrame(smoothscroll);
+                    window.scrollTo (0,currentScroll - (currentScroll/5));
                 }
-            })
-            .then( res => {
-                const {data, total} = res.data
-                this.commentData = {...data}
-                this.total = total
-                // console.log(data)
-            })
+            })();
         }
     },
     mounted () {
         this.init()
-        this.commentInit()
     }
 }
 </script>
@@ -84,7 +71,6 @@ export default {
     width: 1000px;
     margin: 20px auto;
     min-width:1000px;
-
     .about-post{
         width: 280px;
         h3{
@@ -92,6 +78,18 @@ export default {
             font-weight: 400;
             border-bottom: solid 1px #ddd;
         }
+    }
+    .goToTop{
+        position: fixed;
+        bottom: 5%;
+        right: 3%;
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+        background-color: rgba(0,0,0,.5);
+        color:#fff;
+        cursor: pointer;
     }
 }
 </style>

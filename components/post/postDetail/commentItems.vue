@@ -1,19 +1,29 @@
 <template>
     <div class="comment-content-show">
-        <el-row type='flex' justify='center' align='middle' class="comment-content-none">暂无评论，赶紧抢占沙发！</el-row>
-        <!-- 不存在follow, 则为父级 -->
-        <div v-show='!item.follow' v-for="item in data" :key='item.id' class="comment-content-item">
-            {{item.content}} {{item.level}}
-            <commentItems :data='item'/>
+        <div class="commentItems">
+            <commentItems :obj='obj.parent' v-if="obj.parent"/>
+            <el-row type='flex' justify='space-between' class="commentItems-info">
+                <div>
+                    <span>{{obj.account.nickname}}</span>
+                    <span class="commentItems-info-time">{{obj.account.created_at | createTimeFormat}}</span>
+                </div>
+                <span>{{obj.level}}</span>
+            </el-row>
+            <div class="commentItems-content">
+                <p>{{obj.content}}</p>
+                <p v-if="obj.pics" class="comment-pics"><img :src="`${$axios.defaults.baseURL + pic.url}`" alt="" v-for="(pic,index) in obj.pics" :key='index'></p>
+                <el-row type='flex' justify='end' style='color:#141f5c;cursor: pointer;'>回复</el-row>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
+import { createTimeFormat } from '@/middleware/filters'
 export default {
     name: 'commentItems',
     props: {
-        data: {
+        obj: {
             type: Object,
             default: {}
         }
@@ -21,20 +31,27 @@ export default {
     data() {
         return {
         }
+    },
+    filters: {
+        createTimeFormat
     }
 }
 </script>
 
 <style lang="less" scoped>
     .comment-content-show{
-        margin-top: 20px;
-        .comment-content-none{
-        height: 80px;
-        border: dashed 1px #ddd;
-        }
-        .comment-content-item{
-        padding: 20px 10px;
-        border: dashed 1px #ddd;
+        // margin: 10px 30px;
+        .commentItems{
+            border: dashed 1px #ccc;
+            background: #f1f1f1;
+            padding: 5px;
+            margin-top: 5px;
+            .commentItems-info{
+                margin-bottom: 10px;
+                .commentItems-info-time{
+                    color: #666;
+                }
+            }
         }
     }
 </style>
