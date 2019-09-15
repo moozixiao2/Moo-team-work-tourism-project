@@ -35,17 +35,25 @@
                 </el-table-column>
             </el-table>
             <!-- 地图 -->
-              <el-row type="flex" justify="space-between" class="detail-map">
+                <el-row type="flex" justify="space-between" class="detail-map">
                     <div class="detail-map-wrap">
                         <div id="container"></div>
                     </div>
                     <div class="detail-map-list">
                         <el-tabs v-model="activeName" @tab-click="handleClick">
-                            <el-tab-pane label="风景" name="first">风景</el-tab-pane>
-                            <el-tab-pane label="交通" name="second">交通</el-tab-pane>
+                            <el-tab-pane label="风景" name="first">
+                                <el-row type='flex' justify='space-between' v-for="(item,index) in locationView" :key='index' class="detail-map-item">
+                                    <p>{{item.name}}</p>
+                                </el-row>
+                            </el-tab-pane>
+                            <el-tab-pane label="交通" name="second">
+                                <el-row type='flex' justify='space-between' v-for="(item,index) in locationTraffic" :key='index' class="detail-map-item">
+                                    <p>{{item.name}}</p>
+                                </el-row>
+                            </el-tab-pane>
                         </el-tabs>
                     </div>
-              </el-row>
+                </el-row>
             <!-- 基本信息 -->
             <div class="detail-infos">
                 <el-row type="flex" justify="space-between" class="detail-infos-item">
@@ -134,7 +142,11 @@ export default {
             // 当前图片索引
             current: 0,
             // 标签页
-            activeName: 'first'
+            activeName: 'first',
+            // 地图风景
+            locationView: [],
+            // 地图交通
+            locationTraffic: []
         }
     },
     methods: {
@@ -157,16 +169,39 @@ export default {
                 this.hotelObj = {...data[0]}
                 console.log(this.hotelObj)
             })
+        },
+        // 封装调用web服务接口
+        locationMap(types, cb){
+            this.$axios({
+                url: 'https://restapi.amap.com/v3/place/text',
+                params: {
+                    location: '118.871811,31.328468',
+                    city: '南京',
+                    output: 'json',
+                    page: 1,
+                    offset: 10,
+                    types,
+                    key: 'f2709fe743e91589ee9b770616cfb64c'
+                }
+            })
+            .then(res => {
+                const {pois} = res.data
+                cb(pois)
+            })
         }
-    },
-    watch: {
-    //   $route(){
-    //       this.hotelDetailInit()
-    //   }  
     },
     mounted () {
         // 调用酒店详情接口
         this.hotelDetailInit()
+        // 交通风景接口
+        this.locationMap('交通设施服务', data => {
+            this.locationTraffic = data
+        })
+        this.locationMap('风景名胜', data => {
+            this.locationView = data
+            // console.log(this.locationView)
+        })
+
         // 地图
         window.onLoad = function(){ 
             var map = new AMap.Map('container')
@@ -256,6 +291,13 @@ export default {
         }
         .detail-map-list{
             width: 330px;
+            .detail-map-item{
+                margin: 0 12px 8px;
+                cursor: pointer;
+                p{
+
+                }
+            }
         }
     }
     .detail-infos{
