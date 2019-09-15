@@ -165,6 +165,26 @@ export default {
                 return
             }
             // console.log(this.form)
+            // 判断数据是否是草稿箱的数据
+            // 发布成功并且是草稿箱的数据则删除草稿数据
+            if(this.data.id){
+                if(this.form.title === this.data.title && this.form.content === this.data.content &&this.$refs.vueEditor.editor.root.innerHTML === this.data.content && this.form.city === this.data.city){
+                    // 获得本地数据
+                    let arr = JSON.parse(localStorage.getItem('draft box')) || []
+                    // 遍历找出对应 index
+                    let index = arr.findIndex(v => {
+                        return v.id === this.data.id
+                    })
+                    // console.log(index)
+                    // 删除
+                    arr.splice(index, 1)
+                    // 设置本地(更新)
+                    localStorage.setItem('draft box', JSON.stringify(arr))
+                    // 发射本地存储的数据到草稿
+                    this.$emit('getLocalStorageDraft', JSON.parse(localStorage.getItem('draft box')) || [])
+                }
+            }
+            return
             // 调用接口
             this.$axios({
                 url: '/posts',
@@ -192,6 +212,7 @@ export default {
                         this.form.content = ''
                         this.$refs.vueEditor.editor.root.innerHTML = ''
                         this.form.city = ''
+                        this.data.id = ''
                     });
                 }
             })
@@ -251,6 +272,7 @@ export default {
             this.form.content = ''
             this.$refs.vueEditor.editor.root.innerHTML = ''
             this.form.city = ''
+            this.data.id = ''
         },
         // 删除草稿
         delDraftBtn(){
