@@ -3,10 +3,10 @@
         <div class="hotelFilter-item">
             <div class="hotelFilter-title">
                 <span>价格</span>
-                <span>0-{{price}}</span>
+                <span>0-{{newPrice}}</span>
             </div>
             <div class="hotelFilter-select">
-                <el-slider v-model="price"></el-slider>
+                <el-slider v-model="price" :format-tooltip="formatTooltip"></el-slider>
             </div>
         </div>
         <div class="hotelFilter-item">
@@ -18,7 +18,7 @@
                     <span class="el-dropdown-link">
                         不限<i class="el-icon-arrow-down el-icon--right"></i>
                     </span>
-                    <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-menu slot="dropdown" style="padding:0 40px;">
                         <el-dropdown-item>黄金糕</el-dropdown-item>
                         <el-dropdown-item>狮子头</el-dropdown-item>
                         <el-dropdown-item>螺蛳粉</el-dropdown-item>
@@ -35,7 +35,7 @@
                     <span class="el-dropdown-link">
                         不限<i class="el-icon-arrow-down el-icon--right"></i>
                     </span>
-                    <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-menu slot="dropdown" style="padding:0 40px;">
                         <el-dropdown-item>黄金糕</el-dropdown-item>
                         <el-dropdown-item>狮子头</el-dropdown-item>
                         <el-dropdown-item>螺蛳粉</el-dropdown-item>
@@ -48,11 +48,11 @@
                 <span>酒店设施</span>
             </div>
             <div class="hotelFilter-select">
-                <el-dropdown>
+                <el-dropdown style="width: 100%;">
                     <span class="el-dropdown-link">
                         不限<i class="el-icon-arrow-down el-icon--right"></i>
                     </span>
-                    <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-menu slot="dropdown" style="padding:0 40px;">
                         <el-dropdown-item>黄金糕</el-dropdown-item>
                         <el-dropdown-item>狮子头</el-dropdown-item>
                         <el-dropdown-item>螺蛳粉</el-dropdown-item>
@@ -69,7 +69,7 @@
                     <span class="el-dropdown-link">
                         不限<i class="el-icon-arrow-down el-icon--right"></i>
                     </span>
-                    <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-menu slot="dropdown" style="padding:0 40px;">
                         <el-dropdown-item>黄金糕</el-dropdown-item>
                         <el-dropdown-item>狮子头</el-dropdown-item>
                         <el-dropdown-item>螺蛳粉</el-dropdown-item>
@@ -84,7 +84,15 @@
 export default {
     data() {
         return {
-            price: 4000
+            price: 4000,
+            newPrice: 4000
+        }
+    },
+    methods: {
+        // 滑块
+        formatTooltip(val){
+            this.newPrice = val * 40
+            return val * 40;
         }
     },
 }
@@ -108,18 +116,15 @@ export default {
         .hotelFilter-select{
             width: 100%;
             margin-top: 10px;
+            /deep/ .el-dropdown-item{
+                padding:40px;
+            }
             /deep/ .el-dropdown{
                 width: 100%;
                 >span{
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
-                }
-                ul,li{
-                    width: 100%;
-                }
-                /deep/ .el-dropdown-menu, .el-dropdown-item, .el-popper{
-                    width: 100%;
                 }
             }
         }

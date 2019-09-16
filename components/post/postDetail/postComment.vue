@@ -45,13 +45,13 @@
                 <div>{{item.level}}</div>
               </div>
               <div class="comment-content-item-wrap">
-                <CommentItems :obj='item' v-if="item.parent" @setCommentInfo="setCommentInfo"/>
+                <CommentItems :obj='item.parent' v-if="item.parent" @setCommentInfo="setCommentInfo"/>
                 
                 <div class="comment-wrap-content">
                     <p>{{item.content}}</p>
                     <p v-if="item.pics" class="comment-pics">
                       <el-image v-for="(pic,index) in item.pics" :key='index'
-                        style="width: 100px; height: 100px;margin: 6px 6px 0 0; ox-shadow: 0 0 3px #ccc; border-radius: 5px;"
+                        style="width: 100px; height: 100px;margin: 6px 6px 0 0; box-shadow: 0 0 3px #ccc; border-radius: 5px;"
                         :src="`${$axios.defaults.baseURL + pic.url}`" 
                         :preview-src-list="showPic(item.pics)">
                       </el-image>
@@ -97,7 +97,7 @@ export default {
       pageData: [],
       // 分页
       pageIndex: 1,
-      pageSize: 3,
+      pageSize: 5,
       // 图片数据
       imageUrl: "",
       dialogVisible: false,
@@ -257,7 +257,7 @@ export default {
             // 分页
             this.total = this.commentData.length
             this.pageData = this.commentData.slice(0, this.pageSize)
-            // console.log(data,total, 124)
+            console.log(data,total, 124)
         })
     }
   },

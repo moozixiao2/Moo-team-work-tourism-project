@@ -13,9 +13,9 @@
                 <p>{{obj.content}}</p>
                 <p v-if="obj.pics" class="comment-pics">
                     <el-image v-for="(pic,index) in obj.pics" :key='index'
-                    style="width: 100px; height: 100px;margin: 6px 6px 0 0; ox-shadow: 0 0 3px #ccc; border-radius: 5px;"
-                    :src="`${$axios.defaults.baseURL + pic.url}`" 
-                    :preview-src-list="showPic(obj.pics)">
+                        style="width: 100px; height: 100px;margin: 6px 6px 0 0; box-shadow: 0 0 3px #ccc; border-radius: 5px;"
+                        :src="`${$axios.defaults.baseURL + pic.url}`" 
+                        :preview-src-list="showPic(obj.pics)">
                     </el-image>
                 </p>
                 <el-row type='flex' justify='end' style='color:#141f5c;cursor: pointer;' @click.native="recomnentClick(obj.id,obj.account.nickname)">回复</el-row>
@@ -50,7 +50,6 @@ export default {
         },
         // 图片
         showPic(pics){
-        // console.log(pics, 334)
         let arr = pics.map(v => {
             return v = 'http://localhost:1337' + v.url
         })
