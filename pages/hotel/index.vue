@@ -3,11 +3,11 @@
     <!-- 城市酒店筛选 -->
     <HotelForm @cityHotelList="cityHotelList" />
     <el-row>
-      <el-col :span="12">
+      <el-col :span="14">
         <!-- 城市区域信息 -->
         <HotelRegion :name="HotelRegion" />
       </el-col>
-      <el-col :span="12">
+      <el-col :span="10">
         <!-- 地图 -->
         <HotelMap />
       </el-col>
