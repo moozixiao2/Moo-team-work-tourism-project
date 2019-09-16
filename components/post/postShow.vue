@@ -3,7 +3,7 @@
         <!-- <div type="flex" class="recommed-item" v-for="(item, index) in data" :key="index"> -->
         <div type="flex" class="recommed-item">
             <!-- 图片长度大于2，对应布局的显示 -->
-            <div class="recommed-item-1" v-if='data.images.length > 2'>
+            <div class="recommed-item-1" v-if='data.images.length > 2 || data.images.length === 0'>
                 <!-- 标题 -->
                 <h3><nuxt-link  :to='"post/detail?id="+data.id' :title="data.title">{{data.title}}</nuxt-link></h3>
                 <!-- 内容 -->

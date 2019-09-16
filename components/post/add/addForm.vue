@@ -184,7 +184,6 @@ export default {
                     this.$emit('getLocalStorageDraft', JSON.parse(localStorage.getItem('draft box')) || [])
                 }
             }
-            return
             // 调用接口
             this.$axios({
                 url: '/posts',
@@ -193,28 +192,14 @@ export default {
                 data: this.form
             })
             .then(res => {
-                console.log(res)
-                if(res.status === 0){
-                    this.$message.success(res.message)
-                    this.$confirm('文章添加成功噢！, 是否跳转至攻略的首页?', '提示', {
-                        confirmButtonText: '确定',
-                        cancelButtonText: '取消',
-                        type: 'success'
-                    }).then(() => {
-                        this.$router.replace('/post')
-                    }).catch(() => {
-                        this.$message({
-                            type: 'info',
-                            message: '已取消回到首页...'
-                        });          
-                        // 清空文本
-                        this.form.title = ''
-                        this.form.content = ''
-                        this.$refs.vueEditor.editor.root.innerHTML = ''
-                        this.form.city = ''
-                        this.data.id = ''
-                    });
-                }
+                this.$message.success('文章添加成功')
+                this.$router.replace('/post')       
+                // 清空文本
+                this.form.title = ''
+                this.form.content = ''
+                this.$refs.vueEditor.editor.root.innerHTML = ''
+                this.form.city = ''
+                this.data.id = ''
             })
         },
         // 添加到草稿
@@ -272,7 +257,6 @@ export default {
             this.form.content = ''
             this.$refs.vueEditor.editor.root.innerHTML = ''
             this.form.city = ''
-            this.data.id = ''
         },
         // 删除草稿
         delDraftBtn(){
