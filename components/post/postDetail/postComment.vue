@@ -2,6 +2,7 @@
   <div class="postComment">
     <div>
       <h3 class="comment-title">评论</h3>
+      <div class="recommentHide" v-if="isShow">回复@{{nickName}}</div>
       <div class="textarea">
         <textarea placeholder="说点什么吧..." v-model="commentParams.content"></textarea>
         <el-row type="flex" justify="space-between" class="comment-pic-btn">
@@ -44,7 +45,7 @@
                 <div>{{item.level}}</div>
               </div>
               <div class="comment-content-item-wrap">
-                <CommentItems :obj='item' v-if="item.parent"/>
+                <CommentItems :obj='item' v-if="item.parent" @setCommentInfo="setCommentInfo"/>
                 
                 <div class="comment-wrap-content">
                     <p>{{item.content}}</p>
@@ -55,7 +56,7 @@
                         :preview-src-list="showPic(item.pics)">
                       </el-image>
                     </p>
-                    <el-row type='flex' justify='end' style='color:#141f5c;cursor: pointer;'>回复</el-row>
+                    <el-row type='flex' justify='end' style='color:#141f5c;cursor: pointer;' @click.native="handleReComment(item.id, item.account.nickname)">回复</el-row>
                 </div>
               </div>
             </div>
@@ -103,10 +104,33 @@ export default {
       // 大数据
       commentData: [],
       // 数据总数
-      total: 0
+      total: 0,
+      // 回复的用户
+      nickName: '',
+      followId: '',
+      // 显示隐藏
+      isShow: false
     }
   },
   methods: {
+    // 评论回复
+    setCommentInfo(data){
+      console.log(data)
+      
+      // 显示回复的用户昵称
+      this.isShow = true
+      // 赋值
+      this.nickName = data.nickname
+      this.followId = data.id
+    },
+    // 回复
+    handleReComment(id, nickName){
+      // 显示回复的用户昵称
+      this.isShow = true
+      // 赋值
+      this.nickName = nickName
+      this.followId = id
+    },
     // 图片
     showPic(pics){
       // console.log(pics, 334)
@@ -122,28 +146,62 @@ export default {
         this.$message.warning('请输入评论内容...')
         return
       }
-      this.commentParams.post = this.$route.query.id
-      console.log(this.commentParams)
-      // return
-      const {token} = this.$store.state.user.userInfo
-      // 调用接口
-      this.$axios({
-        url: '/comments',
-        headers: {Authorization: `Bearer ${token}`, 'Content-Type': '	application/json'},
-        method: 'post',
-        data: this.commentParams
-      })
-      .then(res => {
-        // console.log(res)
-        this.$message.success('评论成功噢')
-        this.commentInit()
-        // 清空
-        this.commentParams.content = ''
-        this.commentParams.post = ''
-        this.commentParams.pics = []
-        // 清除图片预览
-        this.$refs.upload.clearFiles();
-      })
+      // 回复情况
+      if(this.nickName){
+        // console.log(111)
+        // return
+        this.commentParams.post = this.$route.query.id
+
+        this.commentParams.follow = this.followId
+        console.log(this.commentParams)
+        // return
+        const {token} = this.$store.state.user.userInfo
+        // 调用接口
+        this.$axios({
+          url: '/comments',
+          headers: {Authorization: `Bearer ${token}`, 'Content-Type': '	application/json'},
+          method: 'post',
+          data: this.commentParams
+        })
+        .then(res => {
+          // console.log(res)
+          this.$message.success('回复成功噢')
+          this.commentInit()
+          // 清空
+          this.commentParams.content = ''
+          this.commentParams.post = ''
+          this.commentParams.pics = []
+          // 清除图片预览
+          this.$refs.upload.clearFiles();
+
+          this.nickName = ''
+          this.followId = ''
+          this.isShow = false
+        })
+      }else{
+        this.commentParams.post = this.$route.query.id
+        console.log(this.commentParams)
+        // return
+        const {token} = this.$store.state.user.userInfo
+        // 调用接口
+        this.$axios({
+          url: '/comments',
+          headers: {Authorization: `Bearer ${token}`, 'Content-Type': '	application/json'},
+          method: 'post',
+          data: this.commentParams
+        })
+        .then(res => {
+          // console.log(res)
+          this.$message.success('评论成功噢')
+          this.commentInit()
+          // 清空
+          this.commentParams.content = ''
+          this.commentParams.post = ''
+          this.commentParams.pics = []
+          // 清除图片预览
+          this.$refs.upload.clearFiles();
+        })
+      }
     },
     // 分页
     handleSizeChange(val) {
@@ -197,8 +255,9 @@ export default {
             this.commentData = [...data]
 
             // 分页
-            this.total = total
+            this.total = this.commentData.length
             this.pageData = this.commentData.slice(0, this.pageSize)
+            // console.log(data,total, 124)
         })
     }
   },
@@ -225,6 +284,9 @@ export default {
     width: 100%;
     margin: 10px 0 20px;
     font-weight: 500;
+  }
+  .recommentHide{
+    
   }
   .textarea {
     textarea {

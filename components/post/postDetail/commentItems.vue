@@ -11,8 +11,14 @@
             </el-row>
             <div class="commentItems-content">
                 <p>{{obj.content}}</p>
-                <p v-if="obj.pics" class="comment-pics"><img :src="`${$axios.defaults.baseURL + pic.url}`" alt="" v-for="(pic,index) in obj.pics" :key='index'></p>
-                <el-row type='flex' justify='end' style='color:#141f5c;cursor: pointer;'>回复</el-row>
+                <p v-if="obj.pics" class="comment-pics">
+                    <el-image v-for="(pic,index) in obj.pics" :key='index'
+                    style="width: 100px; height: 100px;margin: 6px 6px 0 0; ox-shadow: 0 0 3px #ccc; border-radius: 5px;"
+                    :src="`${$axios.defaults.baseURL + pic.url}`" 
+                    :preview-src-list="showPic(obj.pics)">
+                    </el-image>
+                </p>
+                <el-row type='flex' justify='end' style='color:#141f5c;cursor: pointer;' @click.native="recomnentClick(obj.id,obj.account.nickname)">回复</el-row>
             </div>
         </div>
     </div>
@@ -30,6 +36,25 @@ export default {
     },
     data() {
         return {
+        }
+    },
+    methods: {
+        // 回复
+        recomnentClick(id,nickname){
+            let data = {
+                id,
+                nickname
+            }
+            // console.log(data)
+            this.$emit('setCommentInfo', data)
+        },
+        // 图片
+        showPic(pics){
+        // console.log(pics, 334)
+        let arr = pics.map(v => {
+            return v = 'http://localhost:1337' + v.url
+        })
+        return arr
         }
     },
     filters: {

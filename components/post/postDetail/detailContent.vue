@@ -19,7 +19,7 @@
                 <div class="post-detail-content" v-html='data.content'></div>
                 <el-row type="flex" justify='center' class="post-detail-others">
                     <div>
-                        <i style="" class="el-icon-edit-outline"></i>
+                        <i style="" class="iconfont icon-bianji"></i>
                         <p v-if='data.comments'>评论({{ 0 || data.comments.length}})</p>
                         <p v-else>评论</p>
                     </div>
@@ -28,12 +28,12 @@
                         <p>收藏</p>
                     </div>
                     <div>
-                        <i class="el-icon-share"></i>
+                        <i class="iconfont icon-fenxiang2"></i>
                         <p>分享</p>
                     </div>
                     <div @click="handleGood">
-                        <i class="el-icon-thumb"></i>
-                        <p v-if='$store.state.post.starPost'>点赞({{ 0 || $store.state.post.starPost.length}})</p>
+                        <i class="iconfont icon-lunkuodasan-"></i>
+                        <p v-if='$store.state.post.starPost'>点赞({{$store.state.post.starPost.length}})</p>
                         <p v-else>点赞(0)</p>
                     </div>
                 </el-row>
