@@ -34,28 +34,28 @@
                     <el-col :span="24">
                         <el-tooltip class="item" effect="dark" content="等级评定是针对房价，设施和服务等各方面水平的综合评估。" placement="bottom-start">
                             <span class="HotelLever">
-                                <i class="iconfont iconhuangguan" style="color:#f90"></i>
-                                <i class="iconfont iconhuangguan" style="color:#f90"></i>
-                                <i class="iconfont iconhuangguan" style="color:#f90"></i>
+                                <i class="iconfont icon-huangguanguanjundiyihuiyuan" style="color:#f90"></i>
+                                <i class="iconfont icon-huangguanguanjundiyihuiyuan" style="color:#f90"></i>
+                                <i class="iconfont icon-huangguanguanjundiyihuiyuan" style="color:#f90"></i>
                                 <span class="aver_price">$332</span>
                             </span>
                         </el-tooltip>
                         <el-tooltip class="item" effect="dark" content="等级评定是针对房价，设施和服务等各方面水平的综合评估。" placement="bottom-start">
                             <span class="HotelLever">
-                                <i class="iconfont iconhuangguan" style="color:#f90"></i>
-                                <i class="iconfont iconhuangguan" style="color:#f90"></i>
-                                <i class="iconfont iconhuangguan" style="color:#f90"></i>
-                                <i class="iconfont iconhuangguan" style="color:#f90"></i>
+                                <i class="iconfont icon-huangguanguanjundiyihuiyuan" style="color:#f90"></i>
+                                <i class="iconfont icon-huangguanguanjundiyihuiyuan" style="color:#f90"></i>
+                                <i class="iconfont icon-huangguanguanjundiyihuiyuan" style="color:#f90"></i>
+                                <i class="iconfont icon-huangguanguanjundiyihuiyuan" style="color:#f90"></i>
                                 <span class="aver_price">$521</span>
                             </span>
                         </el-tooltip>
                         <el-tooltip class="item" effect="dark" content="等级评定是针对房价，设施和服务等各方面水平的综合评估。" placement="bottom-start">
                             <span class="HotelLever">
-                                <i class="iconfont iconhuangguan" style="color:#f90"></i>
-                                <i class="iconfont iconhuangguan" style="color:#f90"></i>
-                                <i class="iconfont iconhuangguan" style="color:#f90"></i>
-                                <i class="iconfont iconhuangguan" style="color:#f90"></i>
-                                <i class="iconfont iconhuangguan" style="color:#f90"></i>
+                                <i class="iconfont icon-huangguanguanjundiyihuiyuan" style="color:#f90"></i>
+                                <i class="iconfont icon-huangguanguanjundiyihuiyuan" style="color:#f90"></i>
+                                <i class="iconfont icon-huangguanguanjundiyihuiyuan" style="color:#f90"></i>
+                                <i class="iconfont icon-huangguanguanjundiyihuiyuan" style="color:#f90"></i>
+                                <i class="iconfont icon-huangguanguanjundiyihuiyuan" style="color:#f90"></i>
                                 <span class="aver_price">$768</span>
                             </span>
                         </el-tooltip>
