@@ -204,6 +204,21 @@ export default {
         },
         // 添加到草稿
         addDraftBtn(){
+            if(!this.$store.state.user.userInfo.token){
+                this.$confirm('您未登录，请先登录..., 是否跳转至登录页?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.$router.replace('/user/login')
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消回到首页...'
+                    });  
+                }); 
+                return           
+            }
             // 富文本框对应数据
             this.form.content = this.$refs.vueEditor.editor.root.innerHTML
             // 交互判断
