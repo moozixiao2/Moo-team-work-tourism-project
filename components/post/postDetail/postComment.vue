@@ -65,6 +65,7 @@
       </div>
       <!-- 分页 -->
       <el-pagination
+        v-if='total >= 1'
         style="margin: 22px auto 0;"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
